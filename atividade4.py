@@ -144,13 +144,20 @@ class Class_Biblioteca:
             contador += 1
     
     encerrar = 1
+    Objects_Users = []
 
     while encerrar != 0:
         while encerrar == 1:
-            encerrar = int(input("""
+            encerrar1 = int(input("""
 +------------------------------+
  1- Entrar como Usuario
  2- Entrar como Funcionario
  3- Criar Usuario
+ 4- Criar Funcionario
 +------------------------------+
 """))
+        while encerrar1 == 1:
+            Name_User_Buscado = str(input("Digite o nome do usuario: "))
+            contador = 0
+            while contador < Objects_Users.len()
+
