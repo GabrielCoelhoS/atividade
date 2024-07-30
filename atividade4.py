@@ -74,14 +74,14 @@ class Class_User:
         else:
             return False
         
-    def Function_Devolver_Livro_Class_User(self, Class_Livro_Atributo, Objeto_Livro_Devolvido_Atributo):
+    def Function_Devolver_Livro_Class_User(self, Objeto_Livro_Devolvido_Atributo):
         i = 0
         while True:
             if self.Livros_Emprestados_User_Atributo[i] == Objeto_Livro_Devolvido_Atributo:
                 Livros_Emprestados_User_Atributo_Auxiliar = self.Livros_Emprestados_User_Atributo
-                Livros_Emprestados_User_Atributo_Auxiliar[i] = None
+                del Livros_Emprestados_User_Atributo_Auxiliar[i]
                 Livros_Emprestados_User_Atributo_Auxiliar.sort()
-                Class_Livro_Atributo.Function_Delvolver_Livro_Class_Livro()
+                Objeto_Livro_Devolvido_Atributo.Function_Delvolver_Livro_Class_Livro()
                 self.Livros_Emprestados_User_Atributo(Livros_Emprestados_User_Atributo_Auxiliar)
                 break
             else:
@@ -90,6 +90,24 @@ class Class_User:
     def Function_Exibir_Livros_Emprestados(self):
         for i in range(0, self.Livros_Emprestados_User_Atributo.len()):
             self.Livros_Emprestados_User_Atributo[i].Function_Exibir_Informacoes()
+    
+    def Function_Buscar_Titulo_Livro_Emprestado(self, Titulo_Buscado):
+        contador = 0
+        while contador <= self.Livros_Emprestados_User_Atributo.len():
+            if self.Livros_Emprestados_User_Atributo[contador].Titulo_Atributo == Titulo_Buscado:
+                return self.Livros_Emprestados_User_Atributo[contador] #Pode não parar o while
+            else:
+                contador += 1
+    
+    def Function_Buscar_Autor_Livro_Emprestado(self, Autor_Buscado):
+        contador = 0
+        while contador <= self.Livros_Emprestados_User_Atributo.len():
+            if self.Livros_Emprestados_User_Atributo[contador].Autor_Atributo == Autor_Buscado:
+                print("Livro encontrado!!")
+                return self.Livros_Emprestados_User_Atributo[contador]
+            else:
+                print("Livro não encontrado!!")
+            contador += 1
 
 class Class_Funcionario(Class_User):
     def __init__(self, Nome_Fucionario_Atributo, Livros_Emprestados_Fucionario_Atributo, ID_Funcionario_Atributo, Cargo_Funcionario_Atributo):
@@ -134,30 +152,230 @@ class Class_Biblioteca:
     def Function_Remove_User(self, Posicao_User_Atributo):
         del self.Lista_User_Atributo[Posicao_User_Atributo]
         
-    def Function_Buscar_Titulo(self, Nome_Buscado):
+    def Function_Buscar_Titulo(self, Titulo_Buscado):
         contador = 0
         while contador <= self.Lista_Livros_Atributos.len():
-            if self.Lista_Livros_Atributos[contador] == Nome_Buscado:
+            if self.Lista_Livros_Atributos[contador].Titulo_Atributo == Titulo_Buscado:
+                return self.Lista_Livros_Atributos[contador]
+            else:
+                print("Livro não encontrado!!")
+            contador += 1
+    def Function_Buscar_Autor(self, Autor_Buscado):
+        contador = 0
+        while contador <= self.Lista_Livros_Atributos.len():
+            if self.Lista_Livros_Atributos[contador].Autor_Atributo == Autor_Buscado:
+                print("Livro encontrado!!")
                 return self.Lista_Livros_Atributos[contador]
             else:
                 print("Livro não encontrado!!")
             contador += 1
     
-    encerrar = 1
-    Objects_Users = []
+def Function_Exibir_Livro(Object_livro_Exibir):
+    print(f"""|   Titulo   |   Autor   |   Ano de Publicacao   |   Disponibilidade   |
+|   {Object_livro_Exibir.Titulo_Atributo}   |   {Object_livro_Exibir.Autor_Atributo}   |   {Object_livro_Exibir.Ano_Publicacao_Atributo}   |   {Object_livro_Exibir.Disponibilidade_Atributo}   |""")
 
-    while encerrar != 0:
-        while encerrar == 1:
-            encerrar1 = int(input("""
+def Function_Opcoes_User(Object_User_Atributo, Object_Biblioteca_Buscada_Atributo):
+    Menu_Opcoes_User = 5
+    while Menu_Opcoes_User != 0:
+        while Menu_Opcoes_User == 5:
+            Menu_Emprestar_Livro = 4
+            Menu_Opcoes_User = int(input("""
 +------------------------------+
- 1- Entrar como Usuario
- 2- Entrar como Funcionario
- 3- Criar Usuario
- 4- Criar Funcionario
+ 1-Pegar livro emprestado
+ 2-Devolver Livro
+ 3-Ver livros pegos
+ 0-Sair
 +------------------------------+
 """))
-        while encerrar1 == 1:
-            Name_User_Buscado = str(input("Digite o nome do usuario: "))
-            contador = 0
-            while contador < Objects_Users.len()
+        while Menu_Opcoes_User == 1 and Menu_Emprestar_Livro != 0:
+            while Menu_Emprestar_Livro == 4:
+                Menu_Emprestar_Livro = int(input("""
++------------------------------+
+1- Buscar por titulo
+2- Buscar por autor
+0- Sair
++------------------------------+"""))
+            while Menu_Emprestar_Livro == 1:
+                Titulo_Buscado = str(input("Digite o titulo do livro: "))
+                Object_Livro_Buscado = Object_biblioteca_Buscada_Atributo.Function_Buscar_Titulo(Titulo_Buscado)
+                Function_Exibir_Livro(Object_Livro_Buscado)
+                Menu_Emprestar_Livro = int(input("""
++------------------------------+
+1- Buscar outro
+3- Pegar emprestado
+4- Voltar
++------------------------------+"""))
+
+            while Menu_Emprestar_Livro == 2:
+                Autor_Buscado = str(input("Digite o autor do livro: "))
+                Object_Livro_Buscado = Object_biblioteca_Buscada_Atributo.Function_Buscar_Autor(Titulo_Buscado)
+                Function_Exibir_Livro(Object_Livro_Buscado)
+                Menu_Emprestar_Livro = int(input("""
++------------------------------+
+2- Buscar outro
+3- Pegar emprestado
+4- Voltar
++------------------------------+"""))
+            
+            while Menu_Emprestar_Livro == 3:
+
+                Emprestado = Object_User_Atributo.Function_Emprestar_Livros_Class_User(Object_Livro_Buscado)
+                if Emprestado:
+                    print("Livro emprestado com sucesso!")
+                else:
+                    print("Livro indisponivel")
+                Menu_Emprestar_Livro = 4
+        
+        while Menu_Opcoes_User == 2 and Menu_Emprestar_Livro != 0:
+            
+            while Menu_Emprestar_Livro == 3:
+                Menu_Emprestar_Livro = int(input("""
++------------------------------+
+1- Buscar por titulo
+2- Buscar por autor
+0- Sair
++------------------------------+"""))
+            while Menu_Emprestar_Livro == 1:
+                Titulo_Buscado = str(input("Digite o titulo do livro: "))
+                Object_Livro_Buscado = Object_biblioteca_Buscada_Atributo.Function_Buscar_Titulo_Livro_Emprestado(Titulo_Buscado)
+                Function_Exibir_Livro(Object_Livro_Buscado)
+                Menu_Emprestar_Livro = int(input("""
++------------------------------+
+1- Buscar outro
+3- Voltar
+4- Pegar emprestado
++------------------------------+"""))
+
+            while Menu_Emprestar_Livro == 2:
+                Autor_Buscado = str(input("Digite o autor do livro: "))
+                Object_Livro_Buscado = Object_biblioteca_Buscada_Atributo.Function_Buscar_Autor_Livro_Emprestado(Autor_Buscado)
+                Function_Exibir_Livro(Object_Livro_Buscado)
+                Menu_Emprestar_Livro = int(input("""
++------------------------------+
+2- Buscar outro
+3- Voltar
+4- Pegar emprestado
++------------------------------+"""))    
+        
+        while Menu_Opcoes_User == 3:
+            for i in range(0, Object_User_Atributo.Livros_Emprestados_User_Atributo.len()):
+                Function_Exibir_Livro(Object_User_Atributo.Livros_Emprestados_User_Atributo[i])
+
+def Function_Opcoes_Funcionarios(Object_Funcionario_Atributo, Object_Biblioteca_Buscada_Atributo):
+    Menu_Opcoes_Funcionario = 5
+    while Menu_Opcoes_Funcionario != 0:
+        while Menu_Opcoes_Funcionario == 5:
+            Menu_Emprestar_Livro = 4
+            Menu_Opcoes_Funcionario = int(input("""
++------------------------------+
+ 1-Pegar livro emprestado
+ 2-Devolver Livro
+ 3-Ver livros pegos
+ 0-Sair
++------------------------------+
+"""))
+        while Menu_Opcoes_Funcionario == 1 and Menu_Emprestar_Livro != 0:
+            while Menu_Emprestar_Livro == 4:
+                Menu_Emprestar_Livro = int(input("""
++------------------------------+
+1- Buscar por titulo
+2- Buscar por autor
+0- Sair
++------------------------------+"""))
+            while Menu_Emprestar_Livro == 1:
+                Titulo_Buscado = str(input("Digite o titulo do livro: "))
+                Object_Livro_Buscado = Object_biblioteca_Buscada_Atributo.Function_Buscar_Titulo(Titulo_Buscado)
+                Function_Exibir_Livro(Object_Livro_Buscado)
+                Menu_Emprestar_Livro = int(input("""
++------------------------------+
+1- Buscar outro
+3- Pegar emprestado
+4- Voltar
++------------------------------+"""))
+
+            while Menu_Emprestar_Livro == 2:
+                Autor_Buscado = str(input("Digite o autor do livro: "))
+                Object_Livro_Buscado = Object_biblioteca_Buscada_Atributo.Function_Buscar_Autor(Titulo_Buscado)
+                Function_Exibir_Livro(Object_Livro_Buscado)
+                Menu_Emprestar_Livro = int(input("""
++------------------------------+
+2- Buscar outro
+3- Pegar emprestado
+4- Voltar
++------------------------------+"""))
+            
+            while Menu_Emprestar_Livro == 3:
+
+                Emprestado = Object_User_Atributo.Function_Emprestar_Livros_Class_User(Object_Livro_Buscado)
+                if Emprestado:
+                    print("Livro emprestado com sucesso!")
+                else:
+                    print("Livro indisponivel")
+                Menu_Emprestar_Livro = 4
+        
+        while Menu_Opcoes_Funcionario == 2 and Menu_Emprestar_Livro != 0:
+            
+            while Menu_Emprestar_Livro == 3:
+                Menu_Emprestar_Livro = int(input("""
++------------------------------+
+1- Buscar por titulo
+2- Buscar por autor
+0- Sair
++------------------------------+"""))
+            while Menu_Emprestar_Livro == 1:
+                Titulo_Buscado = str(input("Digite o titulo do livro: "))
+                Object_Livro_Buscado = Object_biblioteca_Buscada_Atributo.Function_Buscar_Titulo_Livro_Emprestado(Titulo_Buscado)
+                Function_Exibir_Livro(Object_Livro_Buscado)
+                Menu_Emprestar_Livro = int(input("""
++------------------------------+
+1- Buscar outro
+3- Voltar
+4- Pegar emprestado
++------------------------------+"""))
+
+            while Menu_Emprestar_Livro == 2:
+                Autor_Buscado = str(input("Digite o autor do livro: "))
+                Object_Livro_Buscado = Object_biblioteca_Buscada_Atributo.Function_Buscar_Autor_Livro_Emprestado(Autor_Buscado)
+                Function_Exibir_Livro(Object_Livro_Buscado)
+                Menu_Emprestar_Livro = int(input("""
++------------------------------+
+2- Buscar outro
+3- Voltar
+4- Pegar emprestado
++------------------------------+"""))    
+        
+        while Menu_Opcoes_Funcionario == 3:
+
+Menu_Login_SignUp = 5
+Objects_Users = []
+Object_Biblioteca = None
+
+while Menu_Login_SignUp != 0:
+    while Menu_Login_SignUp == 5:
+        Menu_Login_SignUp = int(input("""
++------------------------------+
+1- Login como Usuario
+2- Login como Funcionario
+3- Sign up Usuario
+4- Sign up Funcionario
++------------------------------+
+"""))
+    while Menu_Login_SignUp == 1:
+        Name_User_Buscado = str(input("Digite o nome do usuario: "))
+        contador = 0
+        Logged = False
+        while contador < Objects_Users.len():
+            if Objects_Users[contador].Nome_User_Atributo == Name_User_Buscado:
+                print("Login concluido!")
+                Object_User_Logged = Objects_Users[contador]
+                Logged = True
+                break
+        if Logged == False:
+            print("User não encontrado.")
+        else:
+            Function_Opcoes_User(Object_User_Logged ,Object_Biblioteca)
+
+            
+                
+            
 
